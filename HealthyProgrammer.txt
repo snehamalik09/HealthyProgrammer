@@ -1,0 +1,43 @@
+from pygame import mixer
+from datetime import datetime
+from time import time
+def musiconloop(music_file,stopper):
+    mixer.init()
+    mixer.music.load(music_file)
+    mixer.music.set_volume(100.0)
+    mixer.music.play()
+    while True:
+        user_input=input()
+        if user_input==stopper:
+            mixer.music.stop()
+            break
+
+def logdata(msg):
+    with open("health.txt", "a") as f:
+        f.write(f"{msg} [{datetime.now()}]\n")
+
+if __name__ == '__main__':
+    init_eyes=time()
+    init_water = time()
+    init_exercise= time()
+    eyesduration=35 * 60
+    waterduration=40 * 60
+    exerciseduration=45 * 60
+
+    while True:
+        if time() - init_eyes > eyesduration:
+            print("Eyes exercise time. Enter \"eydone\" if done with the exercise : ")
+            musiconloop(r"C:\Users\Sneha\OneDrive\Desktop\Eyes excercise.mp3", "eydone")
+            logdata("Eyes exercise done at")
+            init_eyes=time()
+        if  time() - init_water > waterduration:
+            print("Drinking water time. Enter \"drank\" if you want to stop the music: ")
+            musiconloop(r"C:\Users\Sneha\OneDrive\Desktop\water.mp3", "drank")
+            logdata("Drank water at")
+            init_water=time()
+        if time() - init_exercise  > exerciseduration:
+            print("physical exercise time. Enter \"exdone\" if done with the exercise : ")
+            musiconloop(r"C:\Users\Sneha\OneDrive\Desktop\physical exercise.mp3", "exdone")
+            logdata("Physical exercise done at")
+            init_exercise=time()
+
